@@ -25,22 +25,23 @@
 						<tr>
 							<th>Rating</th>
 							<th>Name</th>
-							<th>Email</th>
+							<th>Skills</th>
+							<th>Email</th> 
 							<th>Number</th>
 							<th>Action</th>
-							<th><td><button class="btn btn-primary" ng-click="refresh()">Refresh</button></td></th>
+							<th><button class="btn btn-primary" ng-click="refresh()">Refresh</button></th>
+							<th><button class="btn btn-primary" ng-click="clearContact()">Clear</button></th>
+
 						</tr>
 						<tr>
 						<form name="myForm">
 							<td><input type="text" ng-model="contact.rating" required></td>
+							<td><input type="text" ng-model="contact.skills" required></td>
 							<td><input type="text" ng-model="contact.name" required></td>
 							<td><input type="text" ng-model="contact.email" required></td>
 							<td><input type="text" ng-model="contact.number" required></td>
-							<td></td>
-							<td></td>
 							<td><button class="btn btn-primary" ng-click="addContact()">Add  Contact</button></td>
 							<td><button class="btn btn-primary" ng-click="updateContact()">Update  Contact</button></td>
-							<td><button class="btn btn-primary" ng-click="clearContact()">Clear</button></td>
 						</form>
 						</tr>
 						<tbody>
@@ -57,6 +58,7 @@
 								</div>
 							</td>
 							<td style="padding-top: 30px;">{{contact.name}}</td>
+							<td style="padding-top: 30px;">{{contact.skills}}</td>
 							<td style="padding-top: 30px;">{{contact.email}}</td>
 							<td style="padding-top: 30px;">{{contact.number}}</td>
 							<td><button style="margin-top: 15px;" class="btn btn-info" ng-click="editContact(contact._id)">Edit</button></td>
@@ -65,6 +67,16 @@
 						</tbody>
 					</thead>
 				</table>
+			</div>
+
+			<div style=" margin-left: 190px; cursor:pointer;">
+				<ul class="pagination">
+					<li><a href="#">1</a></li>
+					<li class="active"><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+				</ul>
 			</div>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"/>
 		</body>

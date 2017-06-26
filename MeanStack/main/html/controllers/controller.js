@@ -51,6 +51,7 @@ app.controller('appCtrl', function($scope, $http) {
 				console.log(response);
 				$scope.contact.rating='';
 				$scope.contact.name='';
+				$scope.contact.skills='';
 				$scope.contact.email='';
 				$scope.contact.number='';
 			 });
@@ -87,6 +88,7 @@ app.controller('appCtrl', function($scope, $http) {
 			$scope.contact.name='';
 			$scope.contact.email='';
 			$scope.contact.number='';
+			$scope.contact.skills='';
 		});
 		}else{
 			$http.get("/contactlist")
