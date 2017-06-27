@@ -1,10 +1,8 @@
 var app = angular.module('myApp', []);
 app.controller('appCtrl', function($scope, $http) 
 {
-	console.log("CONTROLLER")
     $http.get("/users").success(function(response) 
 	{
-		console.log("TEST link " + response)
         $scope.userList = response;
     });
 	
@@ -14,11 +12,11 @@ app.controller('appCtrl', function($scope, $http)
 	}
 	
 	$scope.upVote = function (id, user)
-	{	
+	{
+		console.log("Up vote")
 		$http.get('/users/' + id).success(function(response)
 		{
-			console.log(response);
-			response.rating = ++user.rating;
+			response.credits = ++user.credits;
 			$http.put('/users/' + response._id, response).success(function(response) 
 			{
 				$scope.userList = response;
@@ -26,12 +24,13 @@ app.controller('appCtrl', function($scope, $http)
 		});
 	}
 	
-	$scope.downVote = function (id,user)
+	$scope.downVote = function (id, user)
 	{	
+		console.log("Down vote")
 		$http.get('/users/' + id).success(function(response) 
 		{
 			console.log(response);
-			response.rating = --user.rating;
+			response.credits = --user.credits;
 			$http.put('/users/' + response._id, response).success(function(response) {
 				$scope.userList = response;
 			});

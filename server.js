@@ -20,27 +20,30 @@ MongoClient.connect('mongodb://sysdb:Ellucian123@ds137882.mlab.com:37882/myhacka
   })
 })
 
+//for parsing application/json data
+app.use(bodyParser.json());
+
+//for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}))
 
 app.get('/users', function(req,res)
 {
-	console.log("HELLO - GET");
+	console.log("GET");
 	var cursor = db.collection('userlist').find().toArray(function(err, results) 
 	{
-		console.log(results)
 		res.json(results)
 	})
 }); 
 
 app.post('/users', function(req, res) 
 {
-	console.log("HELLO - POST");
-	db.collection('userlist').insert(req.body,function (error, results) 
+	console.log("POST");
+	db.collection('userlist').insert(req.body, function (error, results) 
 	{
-		db.collection('userlist').find(function (err, results) 
+		var cursor = db.collection('userlist').find().toArray(function(err, results) 
 		{
-		res.json(results);
-	});
+			res.json(results)
+		})
 	});
 });
 
@@ -48,13 +51,13 @@ app.post('/users', function(req, res)
 app.delete('/users/:id', function(req, res)
 {
 	var id = req.params.id;
-	console.log("HELLO - DELETE");
+	console.log("DELETE");
 	db.collection('userlist').findOneAndDelete({_id: ObjectId(id)},function(error, results)
 	{
-		db.collection('userlist').find(function (err, results)
+		var cursor = db.collection('userlist').find().toArray(function(err, results) 
 		{
-			res.json(results);
-		});
+			res.json(results)
+		})
 	});
 });
 
@@ -62,10 +65,9 @@ app.delete('/users/:id', function(req, res)
 app.get('/users/:id', function(req, res)
 {
 	var id = req.params.id;
-	console.log("HELLO - GET by ID" + id);
+	console.log("GET by ID" + id);
 	db.collection('userlist').findOne({_id: ObjectId(id)},function(error, results) 
 	{
-		console.log(results)
 		res.json(results);
 	});
 });
@@ -74,15 +76,22 @@ app.get('/users/:id', function(req, res)
 app.put('/users/:id', function(req, res)
 {
 	var id = req.params.id;
-	console.log("HELLO - UPDATE " + id);
-	console.log("id= " + id + "  firstName" + req.body.firstName);
-	db.collection('userlist').findOneAndUpdate({query:{_id:ObjectId(id)},
-	update:{$set:{credits:req.body.credits, firstName:req.body.firstName, lastName:req.body.lastName, team:req.body.team}}, new:true},function(error, doc)
-	{
-		db.collection('userlist').find(function (err,results)
+	console.log("UPDATE " + id + ", name :: " + req.body.firstName);
+	db.collection('userlist').findOneAndUpdate({_id: ObjectId(id)},
+		{$set: {
+			credits: req.body.credits, 
+			firstName: req.body.firstName, 
+			lastName: req.body.lastName, 
+			team: req.body.team
+		}
+	}, {upsert: false}, function(error, doc) {
+		if (error) 
 		{
-			res.json(results);
-		});
-	});
-	
+			throw error;
+		}
+		var cursor = db.collection('userlist').find().toArray(function(err, results) 
+		{
+			res.json(results)
+		})
+	});	
 });
