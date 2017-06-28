@@ -1,78 +1,79 @@
 <!DOCTYPE html>
-<html lang="en-US">
-	<head>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<html lang="en-US"  class="bg">
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
 
-		</head>
+<!-- Latest compiled and minified CSS -->
+<!-- jQuery library -->
 
-		<!-- Latest compiled and minified CSS -->
-		<!-- jQuery library -->
+<!-- Latest compiled JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
-		<!-- Latest compiled JavaScript -->
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-		<body>
-			<script src="controllers/controller.js"></script>
+	
+<body  class="bg">
+	<script src="controllers/controller.js"></script>
+	<nav class="navbar navbar-default" style="background-color: transparent; border-color: transparent;color:white">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#"><img
+					src="https://researchresults.files.wordpress.com/2014/07/icon_expert_coul-279x200.png"
+					height="100" width="100"></a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Home</a></li>
+				<li><a href="#">Questions Posted</a></li>
+				<!-- <li><a href="#">Page 2</a></li>
+      <li><a href="#">Page 3</a></li> -->
+			</ul>
+		</div>
+	</nav>
+	<div class="container" ng-app="myApp" ng-controller="appCtrl">
+	<div class="row">
+			<h2 style="color:white">Find an Expert</h2>
+			<div id="custom-search-input">
+				<div class="input-group col-md-12" ng-model="query">
+					<input type="text" class="  search-query form-control"
+						placeholder="Search" ng-model="stringSearched"/> <span class="input-group-btn">
+						<button class="btn btn-danger" type="button" ng-click='searchString()'>
+							<span class=" glyphicon glyphicon-search"></span>
+						</button>
+					</span>
+				</div>
+			</div>
+        <div class="col-xs-12  col-sm-6" style="margin-top:5px;background-color: transparent; border-color: transparent">
+                
+                <ul class="list-group" ng-repeat="user in searchList | filter:test" style="margin-bottom:0px">
+                    <li class="list-group-item">
+                        <div class="col-xs-12 col-sm-2">
+                            <img src="http://api.randomuser.me/portraits/men/49.jpg" alt="Scott Stevens" class="img-responsive img-circle" height="50" width="50"/>
+                        </div>
+                        <div class="col-xs-12 col-sm-10">
+                            <span class="name"><a href="#">{{user.firstName}}</a></span><br/>
+                            <span class="fa fa-star text-muted c-info" data-toggle="tooltip" title="Reputation" style="color:#E0BA20">
+                             <span class="">:{{user.credits}}</span></span>
+                            <span class="fa fa-arrow-up text-muted c-info" data-toggle="tooltip" title="Rank" style="color:#87B416">
+                            <span class="">:1</span></span>
+                            <span class="fa fa-users fa-1 text-muted c-info" data-toggle="tooltip" title="Team" style="color:#B6BB0F  ">
+                            <span class="">:{{user.team}}</span></span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+                </ul>
+        </div>
+        </div>
+        <hr>
+			<div class="form-group">
+				<label for="comment" class="pull-left" style="color:white">Post your question</label>
+				<textarea class="form-control" rows="5" id="question"></textarea>
+				<button type="submit" class="btn btn-primary pull-right" style="margin:10px">Post Question</button>
+			</div>
 			
-
-			<div ng-app="myApp" class ="container" ng-controller="appCtrl">
-				<h1>User List</h1>
-				<p>Type a keyword in the input field: </p>
-
-				<p><input type="text" ng-model="test"></p>
-
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Credits</th>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Team</th>
-							<th><button class="btn btn-primary" ng-click="refresh()">Refresh</button></th>
-							<th><button class="btn btn-primary" ng-click="clearUser()">Clear</button></th>
-						</tr>
-						<tr>
-						<form name="myForm">
-							<td><input type="text" ng-model="user.credits" required></td>
-							<td><input type="text" ng-model="user.firstName" required></td>
-							<td><input type="text" ng-model="user.lastName" required></td>
-							<td><input type="text" ng-model="user.team" required></td>
-							<td><button class="btn btn-primary" ng-click="adduser()">Add  User</button></td>
-							<td><button class="btn btn-primary" ng-click="updateUser()">Update  User</button></td>
-						</form>
-						</tr>
-						<tbody>
-						<tr ng-repeat="user in userList | filter:test">
-							<td>
-								<div style = "margin-left: 7px; cursor: pointer;" class="votingButton" ng-click="upVote(user._id, user);">
-									<i class="glyphicon glyphicon-chevron-up" style="color: green;"></i>
-								</div>
-								<div class="badge badge-inverse">
-									<div>{{user.credits}}</div>
-								</div>
-								<div style = "margin-left: 7px; cursor: pointer;" class="votingButton" ng-click="downVote(user._id, user);">
-									<i class="glyphicon glyphicon-chevron-down" style="color: red;"></i>
-								</div>
-							</td>
-							<td style="padding-top: 30px;">{{user.firstName}}</td>
-							<td style="padding-top: 30px;">{{user.lastName}}</td>
-							<td style="padding-top: 30px;">{{user.team}}</td>
-							<td><button style="margin-top: 15px;" class="btn btn-info" ng-click="editUser(user._id)">Edit</button></td>
-							<td><button style="margin-top: 15px;" class="btn btn-danger" ng-click="deleteUser(user._id)">Delete</button></td>
-						</tr>
-						</tbody>
-					</thead>
-				</table>
-			</div>
-
-			<div style=" margin-left: 190px; cursor:pointer;">
-				<ul class="pagination">
-					<li><a href="#">1</a></li>
-					<li class="active"><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-				</ul>
-			</div>
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"/>
-		</body>
-	</html>
+		</div>
+</div>
+	
+<!-- 	<ng-view></ng-view> -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
+</body>
+</html>

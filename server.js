@@ -66,11 +66,37 @@ app.get('/users/:id', function(req, res)
 {
 	var id = req.params.id;
 	console.log("GET by ID" + id);
+	
 	db.collection('userlist').findOne({_id: ObjectId(id)},function(error, results) 
 	{
 		res.json(results);
 	});
 });
+
+//search by expertise
+/*app.get('/users/search/:id', function(req, res)
+{
+	var id = req.params.id;
+	console.log("HELLO - GET by SearchString " + id);
+	//db.collection('userlist').find({expertize : { $regex : id }},function(error, results)
+			db.collection('userlist').find(function (err, results)
+	{
+		console.log(error);
+		console.log(results);
+		res.json(results);
+	});
+});*/
+app.get('/users/search/:id', function(req,res)
+		{
+		var id = req.params.id;
+			console.log("HELLO - GET by SearchString " + id);
+			var cursor = db.collection('userlist').find().toArray(function(err, results) 
+			{
+				console.log(results)
+				res.json(results)
+			})
+		}); 
+
 
 //update
 app.put('/users/:id', function(req, res)
@@ -94,4 +120,5 @@ app.put('/users/:id', function(req, res)
 			res.json(results)
 		})
 	});	
+	
 });

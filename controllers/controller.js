@@ -1,3 +1,5 @@
+'use strict';
+
 var app = angular.module('myApp', []);
 app.controller('appCtrl', function($scope, $http) 
 {
@@ -9,6 +11,14 @@ app.controller('appCtrl', function($scope, $http)
 	$scope.refresh = function () 
 	{	
 		window.location.reload();
+	}
+	
+	$scope.searchString = function (){	
+		console.log("Hitting here "+$scope.stringSearched);
+		$http.get('/users/search/' +$scope.stringSearched).success(function(response) {
+			console.log(response);
+			$scope.searchList = response;
+		});
 	}
 	
 	$scope.upVote = function (id, user)
