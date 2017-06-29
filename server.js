@@ -6,9 +6,13 @@ const MongoClient = require('mongodb').MongoClient
 
 app.use(express.static(__dirname));
 
-app.use(express.static(__dirname));
-
 var db;
+
+const TAGS = "tags";
+
+const USER_LIST = "userlist";
+
+const QUESTION_LIST = "questionList";
 
 MongoClient.connect('mongodb://sysdb:Ellucian123@ds137882.mlab.com:37882/myhackathon', function(err, database) 
 {
@@ -29,7 +33,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.get('/users', function(req,res)
 {
 	console.log("GET");
-	var cursor = db.collection('userlist').find().toArray(function(err, results) 
+	var cursor = db.collection(USER_LIST).find().toArray(function(err, results) 
 	{
 		res.json(results)
 	})
@@ -38,9 +42,9 @@ app.get('/users', function(req,res)
 app.post('/users', function(req, res) 
 {
 	console.log("POST");
-	db.collection('userlist').insert(req.body, function (error, results) 
+	db.collection(USER_LIST).insert(req.body, function (error, results) 
 	{
-		var cursor = db.collection('userlist').find().toArray(function(err, results) 
+		var cursor = db.collection(USER_LIST).find().toArray(function(err, results) 
 		{
 			res.json(results)
 		})
@@ -48,26 +52,33 @@ app.post('/users', function(req, res)
 });
 
 //delete by id
-app.delete('/users/:id', function(req, res)
+app.delete('/question/:id', function(req, res)
 {
 	var id = req.params.id;
 	console.log("DELETE");
-	db.collection('userlist').findOneAndDelete({_id: ObjectId(id)},function(error, results)
+	db.collection(QUESTION_LIST).findOneAndDelete({_id: ObjectId(id)},function(error, results)
 	{
-		var cursor = db.collection('userlist').find().toArray(function(err, results) 
+		var cursor = db.collection(QUESTION_LIST).find().toArray(function(err, results) 
 		{
 			res.json(results)
 		})
 	});
 });
 
+app.get('/tags', function(req, res) 
+{
+	db.collection(TAGS).find().toArray(function(error, results) 
+	{
+		res.json(results)
+	})
+});
+
 //search by id
 app.get('/users/:id', function(req, res)
 {
 	var id = req.params.id;
-	console.log("GET by ID" + id);
-	
-	db.collection('userlist').findOne({_id: ObjectId(id)},function(error, results) 
+	console.log("GET by ID" + id);	
+	db.collection(USER_LIST).findOne({_id: ObjectId(id)},function(error, results) 
 	{
 		res.json(results);
 	});
@@ -78,7 +89,7 @@ app.get('/users/byId/:id', function(req, res)
 	var id = req.params.id;
 	console.log("GET by id " + id);
 	var query = {_id: ObjectId(id)};
-	var cursor = db.collection('userlist').findOne(query, function(err, results) 
+	var cursor = db.collection(USER_LIST).findOne(query, function(err, results) 
 	{
 		console.log(results)
 		res.json(results)
@@ -88,10 +99,10 @@ app.get('/users/byId/:id', function(req, res)
 app.get('/users/byExpertise/:expertise', function(req, res)
 {
 	console.log("GET by expertize " + req.params.expertise);
-	var query = {"expertise.name" : req.params.expertise};
-	var cursor = db.collection('userlist').find(query).toArray(function(err, results) 
+	var query = {"expertise.name" : { $regex : req.params.expertise, $options : "$i"}};
+	var cursor = db.collection(USER_LIST).find(query).toArray(function(err, results) 
 	{
-		console.log(results)
+		console.log("res : " + results)
 		res.json(results)
 	})
 });
@@ -100,7 +111,7 @@ app.get('/users/byUsername/:userName', function(req, res)
 {
 	console.log("GET by userName " + req.params.userName);
 	var query = {userName : req.params.userName};
-	var cursor = db.collection('userlist').find(query).toArray(function(err, results) 
+	var cursor = db.collection(USER_LIST).find(query).toArray(function(err, results) 
 	{
 		console.log(results)
 		res.json(results)
@@ -113,7 +124,7 @@ app.put('/users/:id', function(req, res)
 {
 	var id = req.params.id;
 	console.log("UPDATE " + id + ", name :: " + req.body.firstName);
-	db.collection('userlist').findOneAndUpdate({_id: ObjectId(id)},
+	db.collection(USER_LIST).findOneAndUpdate({_id: ObjectId(id)},
 		{$set: {
 			credits: req.body.credits, 
 			firstName: req.body.firstName, 
@@ -125,7 +136,7 @@ app.put('/users/:id', function(req, res)
 		{
 			throw error;
 		}
-		var cursor = db.collection('userlist').find().toArray(function(err, results) 
+		var cursor = db.collection(USER_LIST).find().toArray(function(err, results) 
 		{
 			res.json(results)
 		})

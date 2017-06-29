@@ -24,6 +24,12 @@ app.controller('appCtrl', function($scope, $http,ModalService)
 			$scope.searchList = response;
 		});
 	}
+
+	$scope.getTags = function () {	
+		$http.get('/tags').success(function(response) {
+			//use tags here
+		});
+	}
 	
 	$scope.upVote = function (id, user)
 	{
@@ -98,7 +104,7 @@ app.controller('appCtrl', function($scope, $http,ModalService)
 	
 	$scope.clearUser = function ()
 	{
-		$scope.user='';
+		$scope.user = '';
 	};
 	
 	$scope.updateUser = function (id)
@@ -126,16 +132,15 @@ app.controller('appCtrl', function($scope, $http,ModalService)
 	};
 	
     $scope.showUser = function(id) {
-    	console.log("buuss "+id);
-    	$http.get('/users/' +id).success(function(response) {
+    	$http.get('/users/' + id).success(function(response) {
 			console.log(response);
-			var getSkill = getSkills(response.expertise);
+			var expertise = getSkills(response.expertise);
 			
-			angular.element(document.querySelector("#userName")).text(response.firstName+" "+response.lastName); 
-			angular.element(document.querySelector("#skills")).text(getSkills(response.expertise)); 
+			angular.element(document.querySelector("#userName")).text(response.firstName + " " + response.lastName); 
+			angular.element(document.querySelector("#skills")).text(expertise); 
 			angular.element(document.querySelector("#team")).text(response.team); 
-			angular.element(document.querySelector("#email")).text(response.userName); 
-			angular.element(document.querySelector("#imageUrl")).src="http://api.randomuser.me/portraits/men/49.jpg"; 
+			angular.element(document.querySelector("#email")).text(response.email); 
+			angular.element(document.querySelector("#imageUrl")).src = "http://api.randomuser.me/portraits/men/49.jpg"; 
 			
 		});
         ModalService.showModal({
@@ -163,7 +168,7 @@ app.controller('ModalController', function($scope, close) {
 
 function getSkills(skills){
 	var result=[];
-	for(var i=0;i<skills.length;i++){
+	for(var i = 0; i < skills.length; i++){
 		result.push(skills[i].name);
 	}
 	return result
