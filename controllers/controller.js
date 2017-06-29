@@ -1,7 +1,7 @@
 'use strict';
 
-var app = angular.module('myApp', []);
-app.controller('appCtrl', function($scope, $http) 
+var app = angular.module('myApp', ['angularModalService']);
+app.controller('appCtrl', function($scope, $http,ModalService) 
 {
     $http.get("/users").success(function(response) 
 	{
@@ -124,4 +124,47 @@ app.controller('appCtrl', function($scope, $http)
 			});
 		}
 	};
+	
+    $scope.showUser = function(id) {
+    	console.log("buuss "+id);
+    	$http.get('/users/' +id).success(function(response) {
+			console.log(response);
+			var getSkill = getSkills(response.expertise);
+			
+			angular.element(document.querySelector("#userName")).text(response.firstName+" "+response.lastName); 
+			angular.element(document.querySelector("#skills")).text(getSkills(response.expertise)); 
+			angular.element(document.querySelector("#team")).text(response.team); 
+			angular.element(document.querySelector("#email")).text(response.userName); 
+			angular.element(document.querySelector("#imageUrl")).src="http://api.randomuser.me/portraits/men/49.jpg"; 
+			
+		});
+        ModalService.showModal({
+            templateUrl: 'templateId',
+            controller: "ModalController",
+                resolve: {
+                    details: function() {
+                        return userProfile;
+                    }
+                }
+        }).then(function(modal) {
+        	console.log(modal);
+            modal.element.modal();
+        });
+    };
 });
+
+app.controller('ModalController', function($scope, close) {
+	  
+	 $scope.close = function(result) {
+	 	close(result, 500); // close, but give 500ms for bootstrap to animate
+	 };
+
+	});
+
+function getSkills(skills){
+	var result=[];
+	for(var i=0;i<skills.length;i++){
+		result.push(skills[i].name);
+	}
+	return result
+}

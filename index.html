@@ -9,7 +9,14 @@
 <!-- jQuery library -->
 
 <!-- Latest compiled JavaScript -->
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.0/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="https://code.angularjs.org/1.4.5/angular-route.js"></script> 
+<script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
+
+
 
 	
 <body  class="bg">
@@ -50,8 +57,7 @@
                             <img src="http://api.randomuser.me/portraits/men/49.jpg" alt="Scott Stevens" class="img-responsive img-circle" height="50" width="50"/>
                         </div>
                         <div class="col-xs-12 col-sm-10">
-                            <span class="name"><a href="#">{{user.firstName}}</a></span>
-                            <span class="name"><a href="#">{{user.lastName}}</a></span><br/>
+                            <span class="name"><a class="btn btn-default" href ng-click="showUser(user._id)">{{user.firstName}} {{user.lastName}}</a></span><br/>
                             <span class="fa fa-star text-muted c-info" data-toggle="tooltip" title="Reputation" style="color:#E0BA20">
                              <span class="">:{{user.credits}}</span></span>
                             <span class="fa fa-arrow-up text-muted c-info" data-toggle="tooltip" title="Rank" style="color:#87B416">
@@ -70,11 +76,47 @@
 				<textarea class="form-control" rows="5" id="question"></textarea>
 				<button type="submit" class="btn btn-primary pull-right" style="margin:10px">Post Question</button>
 			</div>
-			
-		</div>
-</div>
+			     <script type="text/ng-template" id="templateId">
+         <div class="modal fade panel panel-info" style="background-color:transparent;display:block;border:none">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header" style="background-color:#d9edf7">
+                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 id="userName" class="modal-title" ></h4>
+              </div>
+              <div class="modal-body">
+                              <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center" > <img id="imageUrl" alt="User Pic" src="http://api.randomuser.me/portraits/men/49.jpg" class="img-circle img-responsive"> </div>
+                <div class=" col-md-9 col-lg-9 "> 
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td>Expertise:</td>
+                        <td id="skills"></td>
+                      </tr>
+                      <tr>
+                        <td>Team:</td>
+                        <td id="team"></td>
+                      </tr>
+                      </tr>
+                      <tr>
+                        <td>Email</td>
+                        <td id="email"><a href="mailto:info@support.com">info@support.com</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+     </script>
+	</div>
+
+     <!-- The actual modal template, just a bit o bootstrap -->
+
 	
-<!-- 	<ng-view></ng-view> -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
+	
 </body>
 </html>
