@@ -92,3 +92,25 @@ you will see
  install body parser
  -----------------------
  npm install body-parser from root folder (C:\MeanstackProject)
+ 
+ 
+ 
+ ----------------------------------------------------------------------------------------------------
+ 
+ Use mLab as CLI
+ 
+ ----------------------------------------------------------------------------------------------------
+ 1. make sure nodejs and npm installed in your machine
+	npm --version && node --version
+ 2. install mLab cli
+	npm install --global mlab-cli
+ 3. Check in mLab account if Data APIU is enabled and a API key is generated, if not then 
+    Login to mLab > Account > click username > Click Enable Data API access
+ 4. Copy API generated in step 3.
+ 5. in command prompt
+     >> mlab
+	 >> authorize <API key>
+	 >> show dbs
+	 myhackathon
+
+ 6. 

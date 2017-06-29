@@ -73,29 +73,39 @@ app.get('/users/:id', function(req, res)
 	});
 });
 
-//search by expertise
-/*app.get('/users/search/:id', function(req, res)
+app.get('/users/byId/:id', function(req, res)
 {
 	var id = req.params.id;
-	console.log("HELLO - GET by SearchString " + id);
-	//db.collection('userlist').find({expertize : { $regex : id }},function(error, results)
-			db.collection('userlist').find(function (err, results)
+	console.log("GET by id " + id);
+	var query = {_id: ObjectId(id)};
+	var cursor = db.collection('userlist').findOne(query, function(err, results) 
 	{
-		console.log(error);
-		console.log(results);
-		res.json(results);
-	});
-});*/
-app.get('/users/search/:id', function(req,res)
-		{
-		var id = req.params.id;
-			console.log("HELLO - GET by SearchString " + id);
-			var cursor = db.collection('userlist').find().toArray(function(err, results) 
-			{
-				console.log(results)
-				res.json(results)
-			})
-		}); 
+		console.log(results)
+		res.json(results)
+	})
+});
+
+app.get('/users/byExpertise/:expertise', function(req, res)
+{
+	console.log("GET by expertize " + req.params.expertise);
+	var query = {"expertise.name" : req.params.expertise};
+	var cursor = db.collection('userlist').find(query).toArray(function(err, results) 
+	{
+		console.log(results)
+		res.json(results)
+	})
+});
+
+app.get('/users/byUsername/:userName', function(req, res)
+{
+	console.log("GET by userName " + req.params.userName);
+	var query = {userName : req.params.userName};
+	var cursor = db.collection('userlist').find(query).toArray(function(err, results) 
+	{
+		console.log(results)
+		res.json(results)
+	})
+});
 
 
 //update
@@ -120,5 +130,4 @@ app.put('/users/:id', function(req, res)
 			res.json(results)
 		})
 	});	
-	
 });

@@ -13,10 +13,14 @@ app.controller('appCtrl', function($scope, $http)
 		window.location.reload();
 	}
 	
-	$scope.searchString = function (){	
-		console.log("Hitting here "+$scope.stringSearched);
-		$http.get('/users/search/' +$scope.stringSearched).success(function(response) {
-			console.log(response);
+	$scope.findExpert = function () {	
+		$http.get('/users/byExpertise/' + $scope.searchKey).success(function(response) {
+			$scope.searchList = response;
+		});
+	}
+
+	$scope.findUser = function () {	
+		$http.get('/users/byUsername/' + $scope.searchKey).success(function(response) {
 			$scope.searchList = response;
 		});
 	}
