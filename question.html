@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<style>
+		.questionList{
+			border: 1px gray solid;
+			width: 96%;
+			border-left: 0px;
+			border-right: 0px;
+			height: 57px;
+			padding: 10px;
+			color: blue;
+			font-size: 23px;
+			cursor:pointer;
+		}
+		.show{
+			display:block;
+		}
+		.hide{
+			display:none;
+		}
+		.questionHead{
+			font-size: 26px;
+			border-bottom: 1px solid;
+			width: 95%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.answerSection{
+		    width: 92%;
+			padding: 10px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			margin-bottom: 26px;
+		}
+		.answerHead{
+		    border-bottom: 1px solid;
+			width: 95%;
+			margin-top: 15px;
+			font-size: 15px;
+			font-weight: bold;
+		}
+		</style>
+		</head>
+
+		<!-- Latest compiled and minified CSS -->
+		<!-- jQuery library -->
+
+		<!-- Latest compiled JavaScript -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<body>
+			<script src="controllers/question.js"></script>
+			<div ng-app="myApp" class ="container" ng-controller="appCtrl">
+				<div id="custom-search-input" style=" margin: 50px;margin-left: 0px;">
+					<div class="input-group col-md-12">
+						<input type="text" ng-model="question" class="search-query form-control" placeholder="Search" ng-keypress="callGetQuestion($event)" />
+						<span class="input-group-btn">
+							<button class="btn btn-danger" type="button">
+								<span class=" glyphicon glyphicon-search" ng-click="getQuestion()"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+				<div id="qList" class="show">
+					<div ng-repeat="question in questionList"  style="">
+						<div class="questionList" ng-click="getAnswer(question._id)">{{question.title}}</div>
+					</div>
+				</div>
+				<div id="questionTemplate" class="hide" style="">
+				<div class=" ">
+					<div class="questionHead">{{title}}</div>
+					<div class=""><span>posted by-<a href="#">{{userName}}</a></span>&nbsp;&nbsp;<span id="publishDate">on:{{publishedOn}}</span></div>
+				</div>
+					<div style="" class="answerHead"><span>{{ansCount}}</span>&nbsp;&nbsp;Answers:</div>
+					<div ng-repeat ="answer in answers">
+						<div style="border-bottom: 1px solid;">
+							<div style="width: 60px;float: left;">
+								<div style = "margin-left: 7px; cursor: pointer;" class="votingButton" ng-click="upVote(contact._id,contact);">
+									<i class="glyphicon glyphicon-chevron-up" style="color: green;"></i>
+								</div>
+								<div class="badge badge-inverse">
+									<div>{{answer.credits}}</div>
+								</div>
+								<div style = "margin-left: 7px; cursor: pointer;" class="votingButton" ng-click="downVote(contact._id,contact);">
+									<i class="glyphicon glyphicon-chevron-down" style="color: red;"></i>
+								</div>
+							</div>
+							<div class="answerSection">{{answer.content}}</div><div style="margin-left: 54%;"><span>-<a href="#">{{answer.userName}}</a></span>&nbsp;&nbsp;<span>{{answer.publishedOn}}</span></div>
+							<div ng-repeat="comment in answer.comments">
+								<div style="width: 89%;margin-left: 73px;font-size: 13px;border-top: 1px solid;padding: 10px;">
+									<div style="float: left;">{{comment.content}}</div>
+									<span>-<a href="#">{{comment.userName}}</a></span>&nbsp;&nbsp;<span>{{comment.publishedOn}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"/>
+		</body>
+	</html>

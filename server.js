@@ -142,3 +142,27 @@ app.put('/users/:id', function(req, res)
 		})
 	});	
 });
+
+app.get('/question/byTitle/:question', function(req, res) {
+	var question = req.params.question;
+	if (question != "undefined") {
+		var query = {"title" : new RegExp(question, 'i')};
+		console.log("kum")
+		db.collection('questionList').find(query).toArray(function (err, docs) {
+			console.log(docs);
+			res.json(docs);
+		});
+	} else {
+		db.collection('questionList').find().toArray(function (err, docs) {
+			console.log(docs);
+			res.json(docs);
+		});
+	}
+}); 
+app.get('/question/byId/:id', function(req, res) {
+	var id = req.params.id;
+	var query = {_id: ObjectId(id)};
+	db.collection('questionList').findOne(query,function(error, doc) {
+		res.json(doc);
+	});
+});
