@@ -1,5 +1,6 @@
 var app = angular.module('myApp', []);
-app.controller('appCtrl', function($scope, $http) {
+app.controller('appCtrl', function($scope, $http) 
+{
 	$scope.getQuestion = function () {
 		angular.element(document.querySelector("#questionTemplate")).removeClass("show");
 		angular.element(document.querySelector("#questionTemplate")).addClass("hide");
@@ -11,6 +12,7 @@ app.controller('appCtrl', function($scope, $http) {
 			console.log("question = " + response);
 		});
 	};
+
 	$scope.getAnswer = function (id){
 		angular.element(document.querySelector("#questionTemplate")).removeClass("hide");
 		angular.element(document.querySelector("#questionTemplate")).addClass("show");
@@ -28,23 +30,24 @@ app.controller('appCtrl', function($scope, $http) {
 				angular.element(document.querySelector("#searchId")).val("");
 
 	};
+
 	$scope.callGetQuestion = function(keyEvent) {
 	  if (keyEvent.which === 13) {
 		$scope.getQuestion();
 	  }
 	};
-	$scope.upVote = function (id,answer){
-		$http.get('/question/byId/' +id).success(function(response) {
+
+	$scope.upVote = function (id, answer) {				
+		$http.put('/upVote/' + id, answer).success(function(response) {
 			++answer.credits;
-			$http.put('/upRating/' +response._id,answer).success(function(response) {
-			});
+			console.log("Upvoted")
 		});
 	}
-	$scope.downVote = function (id,answer){	
-		$http.get('/question/byId/' +id).success(function(response) {
+
+	$scope.downVote = function (id, answer) {		
+		$http.put('/downVote/' + id, answer).success(function(response) {
 			--answer.credits;
-			$http.put('/downRating/' +response._id,answer).success(function(response) {
-			});
+			console.log("Downvoted")
 		});
 	}
 });

@@ -147,18 +147,16 @@ app.get('/question/byTitle/:question', function(req, res) {
 	var question = req.params.question;
 	if (question != "undefined") {
 		var query = {"title" : new RegExp(question, 'i')};
-		console.log("kum")
 		db.collection('questionList').find(query).toArray(function (err, docs) {
-			console.log(docs);
 			res.json(docs);
 		});
 	} else {
 		db.collection('questionList').find().toArray(function (err, docs) {
-			console.log(docs);
 			res.json(docs);
 		});
 	}
 }); 
+
 app.get('/question/byId/:id', function(req, res) {
 	var id = req.params.id;
 	var query = {_id: ObjectId(id)};
@@ -166,28 +164,25 @@ app.get('/question/byId/:id', function(req, res) {
 		res.json(doc);
 	});
 });
-app.put('/upRating/:id', function(req, res) {
-	console.log(req.body.answerid)
+
+app.put('/upVote/:id', function(req, res) {
 	var id = req.params.id;
-	db.collection('questionList').find({ _id: ObjectId(id) })
-	.forEach(function (doc) {
-    doc.answers.forEach(function (answer) {
-      if (answer.answerid === req.body.answerid) {
-        answer.credits++;
-      }
-    });
-    db.collection('questionList').save(doc);
-  });
+	db.collection('questionList').update(
+    	{ _id: ObjectId(id), "answers.answerid": req.body.answerid},
+    	{ $inc: { "answers.$.credits": 1 } },
+    	false,
+    	true
+    );
+    res.json("");
 });
-app.put('/downRating/:id', function(req, res) {
+
+app.put('/downVote/:id', function(req, res) {
 	var id = req.params.id;
-	db.collection('questionList').find({ _id: ObjectId(id) })
-	.forEach(function (doc) {
-    doc.answers.forEach(function (answer) {
-      if (answer.answerid === req.body.answerid) {
-        answer.credits--;
-      }
-    });
-    db.collection('questionList').save(doc);
-  });
+	db.collection('questionList').update(
+    	{ _id: ObjectId(id), "answers.answerid": req.body.answerid},
+    	{ $inc: { "answers.$.credits": -1 } },
+    	false,
+    	true
+    );
+    res.json("");
 });
