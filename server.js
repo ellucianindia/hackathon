@@ -166,14 +166,28 @@ app.get('/question/byId/:id', function(req, res) {
 		res.json(doc);
 	});
 });
-app.put('/updateRating/:id', function(req, res) {
+app.put('/upRating/:id', function(req, res) {
+	console.log(req.body.answerid)
 	var id = req.params.id;
-	console.log("id = " +id +",credits = " + req.body.answers[0].credits);
-	db.collection('questionList').findAndModify({query:{_id:ObjectId(id)},
-	update:{$set:{answers:req.body.answers}},new:true},function(error, doc) {
-		db.collection('questionList').find({_id: ObjectId(id)}).toArray(function (err, docs) {
-			console.log(docs);
-			res.json(docs);
-		});
-	});
+	db.collection('questionList').find({ _id: ObjectId(id) })
+	.forEach(function (doc) {
+    doc.answers.forEach(function (answer) {
+      if (answer.answerid === req.body.answerid) {
+        answer.credits++;
+      }
+    });
+    db.collection('questionList').save(doc);
+  });
+});
+app.put('/downRating/:id', function(req, res) {
+	var id = req.params.id;
+	db.collection('questionList').find({ _id: ObjectId(id) })
+	.forEach(function (doc) {
+    doc.answers.forEach(function (answer) {
+      if (answer.answerid === req.body.answerid) {
+        answer.credits--;
+      }
+    });
+    db.collection('questionList').save(doc);
+  });
 });

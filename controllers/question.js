@@ -6,7 +6,7 @@ app.controller('appCtrl', function($scope, $http) {
 		angular.element(document.querySelector("#qList")).removeClass("hide");
 		angular.element(document.querySelector("#qList")).addClass("show");
 		console.log($scope.question);
-		$http.get("/question/byTitle/" + $scope.question).success(function(response) {
+		$http.get("/question/byTitle/" + $scope.question1).success(function(response) {
 			$scope.questionList = response;
 			console.log("question = " + response);
 		});
@@ -25,6 +25,8 @@ app.controller('appCtrl', function($scope, $http) {
 			console.log(response);
 
 		});
+				angular.element(document.querySelector("#searchId")).val("");
+
 	};
 	$scope.callGetQuestion = function(keyEvent) {
 	  if (keyEvent.which === 13) {
@@ -32,38 +34,16 @@ app.controller('appCtrl', function($scope, $http) {
 	  }
 	};
 	$scope.upVote = function (id,answer){
-			alert(id+"--"+answer.answerid);
 		$http.get('/question/byId/' +id).success(function(response) {
-			console.log(response);
-			for (var i = 0;i < response.answers.length;i++) {
-				if(response.answers[i].answerid == answer.answerid){
-					response.answers[i].credits = ++answer.credits;
-				}
-			}
-			$http.put('/updateRating/' +response._id,response).success(function(response) {
-				$scope.title = response[0].title;
-				$scope.userName = response[0].userName;
-				$scope.publishedOn = response[0].publishedOn;
-				$scope.question = response[0];
-				$scope.ansCount = response[0].answers.length;
+			++answer.credits;
+			$http.put('/upRating/' +response._id,answer).success(function(response) {
 			});
 		});
 	}
 	$scope.downVote = function (id,answer){	
-	alert(id+"--"+answer.answerid);
 		$http.get('/question/byId/' +id).success(function(response) {
-			console.log(response);
-			for (var i = 0;i < response.answers.length;i++) {
-				if(response.answers[i].answerid == answer.answerid){
-					response.answers[i].credits = --answer.credits;
-				}
-			}
-			$http.put('/updateRating/' +response._id,response).success(function(response) {
-				$scope.title = response[0].title;
-				$scope.userName = response[0].userName;
-				$scope.publishedOn = response[0].publishedOn;
-				$scope.question = response[0];
-				$scope.ansCount = response[0].answers.length;
+			--answer.credits;
+			$http.put('/downRating/' +response._id,answer).success(function(response) {
 			});
 		});
 	}
