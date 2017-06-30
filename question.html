@@ -73,16 +73,16 @@
 					<div class=""><span>posted by-<a href="#">{{userName}}</a></span>&nbsp;&nbsp;<span id="publishDate">on:{{publishedOn}}</span></div>
 				</div>
 					<div style="" class="answerHead"><span>{{ansCount}}</span>&nbsp;&nbsp;Answers:</div>
-					<div ng-repeat ="answer in answers">
+					<div ng-repeat ="answer in question.answers">
 						<div style="border-bottom: 1px solid;">
 							<div style="width: 60px;float: left;">
-								<div style = "margin-left: 7px; cursor: pointer;" class="votingButton" ng-click="upVote(contact._id,contact);">
+								<div style = "margin-left: 7px; cursor: pointer;" class="votingButton" ng-click="upVote(question._id,answer);">
 									<i class="glyphicon glyphicon-chevron-up" style="color: green;"></i>
 								</div>
 								<div class="badge badge-inverse">
 									<div>{{answer.credits}}</div>
 								</div>
-								<div style = "margin-left: 7px; cursor: pointer;" class="votingButton" ng-click="downVote(contact._id,contact);">
+								<div style = "margin-left: 7px; cursor: pointer;" class="votingButton" ng-click="downVote(question._id,answer);">
 									<i class="glyphicon glyphicon-chevron-down" style="color: red;"></i>
 								</div>
 							</div>

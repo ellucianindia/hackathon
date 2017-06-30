@@ -20,9 +20,9 @@ app.controller('appCtrl', function($scope, $http) {
 			$scope.title = response.title;
 			$scope.userName = response.userName;
 			$scope.publishedOn = response.publishedOn;
-			$scope.answers = response.answers;
+			$scope.question = response;
 			$scope.ansCount = response.answers.length;
-			console.log("answers = " + response);
+			console.log(response);
 
 		});
 	};
@@ -31,4 +31,40 @@ app.controller('appCtrl', function($scope, $http) {
 		$scope.getQuestion();
 	  }
 	};
+	$scope.upVote = function (id,answer){
+			alert(id+"--"+answer.answerid);
+		$http.get('/question/byId/' +id).success(function(response) {
+			console.log(response);
+			for (var i = 0;i < response.answers.length;i++) {
+				if(response.answers[i].answerid == answer.answerid){
+					response.answers[i].credits = ++answer.credits;
+				}
+			}
+			$http.put('/updateRating/' +response._id,response).success(function(response) {
+				$scope.title = response[0].title;
+				$scope.userName = response[0].userName;
+				$scope.publishedOn = response[0].publishedOn;
+				$scope.question = response[0];
+				$scope.ansCount = response[0].answers.length;
+			});
+		});
+	}
+	$scope.downVote = function (id,answer){	
+	alert(id+"--"+answer.answerid);
+		$http.get('/question/byId/' +id).success(function(response) {
+			console.log(response);
+			for (var i = 0;i < response.answers.length;i++) {
+				if(response.answers[i].answerid == answer.answerid){
+					response.answers[i].credits = --answer.credits;
+				}
+			}
+			$http.put('/updateRating/' +response._id,response).success(function(response) {
+				$scope.title = response[0].title;
+				$scope.userName = response[0].userName;
+				$scope.publishedOn = response[0].publishedOn;
+				$scope.question = response[0];
+				$scope.ansCount = response[0].answers.length;
+			});
+		});
+	}
 });
