@@ -77,6 +77,7 @@ app.controller('appCtrl', function($scope, $http)
 					$scope.question = response;
 					$scope.ansCount = response.answers.length;
 					console.log(response);
+					$scope.postedAnswer="";
 					angular.element(document.querySelector("#answerId")).val("");
 				});
 			});
