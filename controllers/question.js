@@ -1,6 +1,11 @@
 var app = angular.module('myApp', []);
 app.controller('appCtrl', function($scope, $http) 
 {
+	$http.get("/question/byTitle/" + $scope.searchQuestion).success(function(response) {
+		$scope.questionList = response;
+		console.log("question = " + response);
+	});
+	
 	$scope.getQuestion = function () {
 		angular.element(document.querySelector("#questionTemplate")).removeClass("show");
 		angular.element(document.querySelector("#questionTemplate")).addClass("hide");
@@ -8,8 +13,8 @@ app.controller('appCtrl', function($scope, $http)
 		angular.element(document.querySelector("#qList")).addClass("show");
 		angular.element(document.querySelector("#postAnswer")).removeClass("show");
 		angular.element(document.querySelector("#postAnswer")).addClass("hide");
-		console.log($scope.question);
-		$http.get("/question/byTitle/" + $scope.question1).success(function(response) {
+		console.log($scope.searchQuestion);
+		$http.get("/question/byTitle/" + $scope.searchQuestion).success(function(response) {
 			$scope.questionList = response;
 			console.log("question = " + response);
 		});
@@ -28,7 +33,10 @@ app.controller('appCtrl', function($scope, $http)
 			$scope.userName = response.userName;
 			$scope.publishedOn = response.publishedOn;
 			$scope.question = response;
-			$scope.ansCount = response.answers.length;
+			if (response.answers)
+				$scope.ansCount = response.answers.length;
+			else
+				$scope.ansCount = 0;
 			console.log(response);
 
 		});
@@ -37,9 +45,14 @@ app.controller('appCtrl', function($scope, $http)
 	};
 
 	$scope.callGetQuestion = function(keyEvent) {
-	  if (keyEvent.which === 13) {
-		$scope.getQuestion();
-	  }
+			$scope.getQuestion();
+	  //if (keyEvent.which === 13) {
+		//$scope.getQuestion();
+		/* if (keyEvent.keyCode === 8) {
+			alert($scope.searchQuestion);
+			$scope.getQuestion();
+		} */
+	 // }
 	};
 
 	$scope.upVote = function (id, answer) {				

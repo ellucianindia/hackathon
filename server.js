@@ -201,7 +201,8 @@ app.put('/postAnswer/:id', function(req, res) {
 	console.log(id+"----"+req.body.answerid);
 	db.collection('questionList').update(
 		{ _id: ObjectId(id)},
-		{$push: { "answers": req.body } }
+		{$push: { "answers": req.body } ,
+		$set: { "answered": "yes" } }
 		)
   res.json("");
 });
