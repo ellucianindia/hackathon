@@ -40,6 +40,16 @@
 			margin-top: 15px;
 			font-size: 15px;
 			font-weight: bold;
+			clear: both;
+		}
+		.tag{
+		    width: 100px;
+			height: 20px;
+			background-color: #E1ECF4;
+			text-align: center;
+			float: left;
+			margin: 10px;
+			cursor:pointer;
 		}
 		</style>
 		</head>
@@ -54,7 +64,7 @@
 			<div ng-app="myApp" class ="container" ng-controller="appCtrl">
 				<div id="custom-search-input" style=" margin: 50px;margin-left: 0px;">
 					<div class="input-group col-md-12">
-						<input type="text" id="searchId" ng-model="question1" class="search-query form-control" placeholder="Search" ng-keypress="callGetQuestion($event)" />
+						<input type="text" id="searchId" ng-model="searchQuestion" class="search-query form-control" placeholder="Search" ng-keypress="callGetQuestion($event)" />
 						<span class="input-group-btn">
 							<button class="btn btn-danger" type="button">
 								<span class=" glyphicon glyphicon-search" ng-click="getQuestion()"></span>
@@ -71,10 +81,13 @@
 				<div class=" ">
 					<div class="questionHead">{{title}}</div>
 					<div class=""><span>posted by-<a href="#">{{userName}}</a></span>&nbsp;&nbsp;<span id="publishDate">on:{{publishedOn}}</span></div>
+					<div ng-repeat ="tag in tags">
+					<div class="tag">{{tag}}</div>
+					</div>
 				</div>
 					<div style="" class="answerHead"><span>{{ansCount}}</span>&nbsp;&nbsp;Answers:</div>
 					<div ng-repeat ="answer in question.answers">
-						<div style="border-bottom: 1px solid;">
+						<div style="border-bottom: 1px solid; width: 96%;">
 							<div style="width: 60px;float: left;">
 								<div style = "margin-left: 7px; cursor: pointer;" class="votingButton" ng-click="upVote(question._id,answer);">
 									<i class="glyphicon glyphicon-chevron-up" style="color: green;"></i>
@@ -93,6 +106,15 @@
 									<span>-<a href="#">{{comment.userName}}</a></span>&nbsp;&nbsp;<span>{{comment.publishedOn}}</span>
 								</div>
 							</div>
+						</div>
+					</div>
+				</div>
+				<div id="postAnswer" class="hide" style="margin:10px;">
+					<div style="margin-top: 25px;margin-bottom: 25px;font-size: 20px;">Your Answer</div>
+					<div>
+						<textarea class="form-control" rows="5" ng-model="postedAnswer" id="answerId" style="width: 98%"></textarea>
+						<div id="postButtonId" style="float: right; margin: 20px;">  
+							<button type="submit" class="btn btn-primary " ng-click="postAnswer(question._id,postedAnswer)">Post</button>
 						</div>
 					</div>
 				</div>

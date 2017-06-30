@@ -186,3 +186,12 @@ app.put('/downVote/:id', function(req, res) {
     );
     res.json("");
 });
+app.put('/postAnswer/:id', function(req, res) {
+	var id = req.params.id;
+	console.log(id+"----"+req.body.answerid);
+	db.collection('questionList').update(
+		{ _id: ObjectId(id)},
+		{$push: { "answers": req.body } }
+		)
+  res.json("");
+});

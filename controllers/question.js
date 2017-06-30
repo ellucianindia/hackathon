@@ -6,6 +6,8 @@ app.controller('appCtrl', function($scope, $http)
 		angular.element(document.querySelector("#questionTemplate")).addClass("hide");
 		angular.element(document.querySelector("#qList")).removeClass("hide");
 		angular.element(document.querySelector("#qList")).addClass("show");
+		angular.element(document.querySelector("#postAnswer")).removeClass("show");
+		angular.element(document.querySelector("#postAnswer")).addClass("hide");
 		console.log($scope.question);
 		$http.get("/question/byTitle/" + $scope.question1).success(function(response) {
 			$scope.questionList = response;
@@ -18,6 +20,8 @@ app.controller('appCtrl', function($scope, $http)
 		angular.element(document.querySelector("#questionTemplate")).addClass("show");
 		angular.element(document.querySelector("#qList")).removeClass("show");
 		angular.element(document.querySelector("#qList")).addClass("hide");
+		angular.element(document.querySelector("#postAnswer")).removeClass("hide");
+		angular.element(document.querySelector("#postAnswer")).addClass("show");
 		$http.get('/question/byId/' + id).success(function(response) {
 			$scope.title = response.title;
 			$scope.userName = response.userName;
@@ -49,5 +53,33 @@ app.controller('appCtrl', function($scope, $http)
 			--answer.credits;
 			console.log("Downvoted")
 		});
+	};
+	$scope.postAnswer = function (id){	
+		var comments = [];
+		var answer={
+			accepted:"false",
+			answerid:"ans"+getRandomInt(1,1000),
+			comments:comments,
+			content:$scope.postedAnswer,
+			credits:0,
+			publishedOn:new Date(),
+			userName:"usr"+getRandomInt(1,3000)
+		}
+		console.log(answer);
+		$http.put('/postAnswer/' +id,answer).success(function(response) {
+			$http.get('/question/byId/' + id).success(function(response) {
+				$scope.title = response.title;
+				$scope.tags = response.tags;
+				$scope.userName = response.userName;
+				$scope.publishedOn = response.publishedOn;
+				$scope.question = response;
+				$scope.ansCount = response.answers.length;
+				console.log(response);
+				angular.element(document.querySelector("#answerId")).val("");
+			});
+		});
 	}
 });
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
