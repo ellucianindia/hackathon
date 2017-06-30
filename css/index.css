@@ -7,7 +7,7 @@
 	background-image: url("../images/scuffedstatic_dark1400x900.jpg");
     /* Center and scale the image nicely */
     background-position: center;
-    background-repeat: no-repeat;
+    /* background-repeat: no-repeat; */
     background-size: cover;
 }
 .panel > .list-group .list-group-item:first-child {
@@ -165,3 +165,18 @@ ul.c-controls li a:hover {
 .toppad
 {margin-top:20px;
 }
+
+
+.multiselect-container>li>a>label {
+  padding: 4px 20px 3px 20px;
+}
+
+.red{
+    color:red;
+    }
+.form-area
+{
+	padding: 10px 40px 60px;
+	margin: 10px 0px 60px;
+	}
+

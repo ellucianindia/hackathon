@@ -15,6 +15,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="https://code.angularjs.org/1.4.5/angular-route.js"></script> 
 <script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
+<script type="text/javascript" src="node_modules/angularjs-dropdown-multiselect/dist/angularjs-dropdown-multiselect.min.js"></script>.
 
 
 
@@ -43,7 +44,7 @@
 			<div id="custom-search-input">
 				<div class="input-group col-md-12" ng-model="query">
 					<input type="text" class="  search-query form-control"
-						placeholder="Search" ng-model="searchKey"/> <span class="input-group-btn">
+						placeholder="Search" ng-model="searchKey" ng-keypress="callFindExpert($event)" /> <span class="input-group-btn">
 						<button class="btn btn-danger" type="button" ng-click='findExpert()'>
 							<span class=" glyphicon glyphicon-search"></span>
 						</button>
@@ -57,7 +58,7 @@
                         <div class="col-xs-12 col-sm-2">
                             <img src="http://api.randomuser.me/portraits/men/49.jpg" alt="Scott Stevens" class="img-responsive img-circle" height="50" width="50"/>
                         </div>
-                        <a class="btn btn-default" href ng-click="showUser(user._id)">
+                       <a class="btn btn-default" href ng-click="showUser(user._id)">
                         <div class="col-xs-12 col-sm-10">
                             <span class="name">{{user.firstName}} {{user.lastName}}</span><br/>
                             <span class="fa fa-star text-muted c-info" data-toggle="tooltip" title="Reputation" style="color:#E0BA20">
@@ -67,19 +68,38 @@
                             <span class="fa fa-users fa-1 text-muted c-info" data-toggle="tooltip" title="Team" style="color:#B6BB0F  ">
                             <span class="">:{{user.team}}</span></span>
                         </div>
-                        </a>
-                        <div class="clearfix"></div>
+                       </a>
+                       <div class="clearfix"></div>
                     </li>
                 </ul>
         </div>
         </div>
         <hr>
-			<div class="form-group">
-				<label for="comment" class="pull-left" style="color:white">Post your question</label>
-				<textarea class="form-control" rows="5" id="question"></textarea>
-				<button type="submit" class="btn btn-primary pull-right" style="margin:10px">Post Question</button>
+			<div class="col-md-10">
+			    <div class="form-area">  
+			        <form role="form">
+			        <br style="clear:both">
+			                   <h3 style="margin-bottom: 25px;color:white">Post Your Question</h3>
+			    				<div class="form-group">
+									<input type="text" class="form-control" id="title" max-length="200" ng-model="question.title" placeholder="Title" required>
+								</div>
+								
+			                    <div class="form-group">
+			                    <textarea class="form-control" rows="5" id="question" ng-model="question.content" placeholder="Description for your Question"></textarea>                
+			                    </div>
+			            		<div class="form-group">
+									<p style="color:white"> Select Tags</p>
+									<select class="dropdown " ng-model="question.tags" id="tags" multiple required>
+										<option ng-repeat="tags in tagsList" value="{{tags}}">{{tags}}</option>
+									</select>
+								</div>
+			        <button type="button" id="submit" name="postQuestion" class="btn btn-primary pull-right" ng-click='postQuestion()'>Post Question</button>
+			        </form>
+			    </div>
 			</div>
-			     <script type="text/ng-template" id="templateId">
+
+
+		<script type="text/ng-template" id="templateId">
          <div class="modal fade panel panel-info" style="background-color:transparent;display:block;border:none">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -115,6 +135,8 @@
           </div>
         </div>
      </script>
+
+
 	</div>
 
      <!-- The actual modal template, just a bit o bootstrap -->

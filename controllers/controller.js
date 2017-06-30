@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('myApp', ['angularModalService']);
+var app = angular.module('myApp', ['angularModalService','angularjs-dropdown-multiselect']);
 app.controller('appCtrl', function($scope, $http,ModalService) 
 {
     $http.get("/users").success(function(response) 
@@ -8,6 +8,13 @@ app.controller('appCtrl', function($scope, $http,ModalService)
         $scope.userList = response;
     });
 	
+    $http.get("/tags").success(function(response) 
+	{
+        $scope.tagsList = response[0].tags;
+        console.log(response)
+        console.log(response[0].tags)
+    });
+    
 	$scope.refresh = function () 
 	{	
 		window.location.reload();
@@ -156,7 +163,36 @@ app.controller('appCtrl', function($scope, $http,ModalService)
             modal.element.modal();
         });
     };
+    
+    
+    //posting questions api
+	$scope.postQuestion = function () {	
+		
+		var userNameArray = ['svr2225','niket22', 'ravi43', 'jittojoset', 'shrik123'];
+		var randomNum = Math.floor(Math.random() * userNameArray.length);
+		console.log(userNameArray[randomNum]);
+		$scope.question.userName = userNameArray[randomNum];
+		$scope.question.publishedOn = new Date();
+		$scope.question.answered = "No";
+		$http.post('/postQuestion' ,$scope.question).success(function(response) {
+			console.log(response)
+		});
+		
+	};
+	
+	//On pressing Enter Key
+	$scope.callFindExpert = function(keyEvent) {
+		
+		
+		  if (keyEvent.which === 13) {
+			$scope.findExpert();
+		  }
+		};
+    
 });
+
+
+
 
 app.controller('ModalController', function($scope, close) {
 	  
