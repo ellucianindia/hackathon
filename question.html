@@ -112,10 +112,12 @@
 				<div id="postAnswer" class="hide" style="margin:10px;">
 					<div style="margin-top: 25px;margin-bottom: 25px;font-size: 20px;">Your Answer</div>
 					<div>
-						<textarea class="form-control" rows="5" ng-model="postedAnswer" id="answerId" style="width: 98%"></textarea>
-						<div id="postButtonId" style="float: right; margin: 20px;">  
-							<button type="submit" class="btn btn-primary " ng-click="postAnswer(question._id,postedAnswer)">Post</button>
-						</div>
+						<form name="myForm">
+							<textarea class="form-control" rows="5" ng-model="postedAnswer" id="answerId" style="width: 98%" required></textarea>
+							<div id="postButtonId" style="float: right; margin: 20px;">  
+								<button type="submit" class="btn btn-primary " ng-click="postAnswer(question._id,postedAnswer)">Post</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

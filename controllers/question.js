@@ -24,6 +24,7 @@ app.controller('appCtrl', function($scope, $http)
 		angular.element(document.querySelector("#postAnswer")).addClass("show");
 		$http.get('/question/byId/' + id).success(function(response) {
 			$scope.title = response.title;
+			$scope.tags = response.tags;
 			$scope.userName = response.userName;
 			$scope.publishedOn = response.publishedOn;
 			$scope.question = response;
@@ -66,18 +67,20 @@ app.controller('appCtrl', function($scope, $http)
 			userName:"usr"+getRandomInt(1,3000)
 		}
 		console.log(answer);
-		$http.put('/postAnswer/' +id,answer).success(function(response) {
-			$http.get('/question/byId/' + id).success(function(response) {
-				$scope.title = response.title;
-				$scope.tags = response.tags;
-				$scope.userName = response.userName;
-				$scope.publishedOn = response.publishedOn;
-				$scope.question = response;
-				$scope.ansCount = response.answers.length;
-				console.log(response);
-				angular.element(document.querySelector("#answerId")).val("");
+		if($scope.postedAnswer.length>0){
+			$http.put('/postAnswer/' +id,answer).success(function(response) {
+				$http.get('/question/byId/' + id).success(function(response) {
+					$scope.title = response.title;
+					$scope.tags = response.tags;
+					$scope.userName = response.userName;
+					$scope.publishedOn = response.publishedOn;
+					$scope.question = response;
+					$scope.ansCount = response.answers.length;
+					console.log(response);
+					angular.element(document.querySelector("#answerId")).val("");
+				});
 			});
-		});
+		}
 	}
 });
 function getRandomInt(min, max) {
