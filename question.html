@@ -60,8 +60,16 @@
 		<!-- Latest compiled JavaScript -->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 		<body>
+			
+			<div style="float:left;">
+				<button type="submit" id="back" class="btn btn-primary hide" style="margin:18px;" onclick="back()">Back</button>
+			</div>
+			<div style="">
+				<button type="submit" id="home" class="btn btn-primary" style="margin: 18px;"onclick="home()">Home</button>
+			</div>
 			<script src="controllers/question.js"></script>
 			<div ng-app="myApp" class ="container" ng-controller="appCtrl">
+				
 				<div id="custom-search-input" style=" margin: 50px;margin-left: 0px;">
 					<div class="input-group col-md-12">
 						<input type="text" id="searchId" ng-model="searchQuestion" class="search-query form-control" placeholder="Search" ng-keypress="callGetQuestion($event)" ng-keydown="callGetQuestion($event)"/>
@@ -74,7 +82,7 @@
 				</div>
 				<div id="qList" class="show">
 					<div ng-repeat="question in questionList"  style="">
-						<div class="questionList" ng-click="getAnswer(question._id)">{{question.title}}</div>
+						<div class="questionList" ng-click="getAnswer(question._id)" ng-style="set_color(question.answered)">{{question.title}}</div>
 					</div>
 				</div>
 				<div id="questionTemplate" class="hide" style="">

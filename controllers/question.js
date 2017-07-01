@@ -13,6 +13,8 @@ app.controller('appCtrl', function($scope, $http)
 		angular.element(document.querySelector("#qList")).addClass("show");
 		angular.element(document.querySelector("#postAnswer")).removeClass("show");
 		angular.element(document.querySelector("#postAnswer")).addClass("hide");
+		angular.element(document.querySelector("#back")).removeClass("show");
+		angular.element(document.querySelector("#back")).addClass("hide");
 		console.log($scope.searchQuestion);
 		$http.get("/question/byTitle/" + $scope.searchQuestion).success(function(response) {
 			$scope.questionList = response;
@@ -27,6 +29,8 @@ app.controller('appCtrl', function($scope, $http)
 		angular.element(document.querySelector("#qList")).addClass("hide");
 		angular.element(document.querySelector("#postAnswer")).removeClass("hide");
 		angular.element(document.querySelector("#postAnswer")).addClass("show");
+		angular.element(document.querySelector("#back")).removeClass("hide");
+		angular.element(document.querySelector("#back")).addClass("show");
 		$http.get('/question/byId/' + id).success(function(response) {
 			$scope.title = response.title;
 			$scope.tags = response.tags;
@@ -43,7 +47,12 @@ app.controller('appCtrl', function($scope, $http)
 				angular.element(document.querySelector("#searchId")).val("");
 
 	};
-
+	$scope.set_color = function (isAnswered) {
+	  if (isAnswered.toLowerCase() =="no") {
+		return { color: "red" }
+	  }
+	};
+	
 	$scope.callGetQuestion = function(keyEvent) {
 			$scope.getQuestion();
 	  //if (keyEvent.which === 13) {
@@ -100,3 +109,10 @@ app.controller('appCtrl', function($scope, $http)
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+function home() {
+	window.location = '/'; 
+};
+function back() {
+	document.referrer;
+	window.history.go(-2);
+};
