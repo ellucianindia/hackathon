@@ -111,7 +111,7 @@ app.get('/users/byExpertise/:expertise', function(req, res)
                     "input": "$expertise",
                     "as": "p",
                     "in": { "$cond": [
-                        { "$regex": [ "$$p.name", req.params.expertise ] },
+                        { "$eq": [ "$$p.name", req.params.expertise ] },
                         "$$p",
                         false
                     ]}
