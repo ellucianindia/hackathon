@@ -3,7 +3,10 @@ app.controller('appCtrl', function($scope, $http)
 {
 	$http.get("/question/byTitle/" + $scope.searchQuestion).success(function(response) {
 		$scope.questionList = response;
+		$scope.questionTotal = response.length;
 		console.log("question = " + response);
+		angular.element(document.querySelector("#answerCol")).removeClass("hide");
+		angular.element(document.querySelector("#answerCol")).addClass("show");
 	});
 	
 	$scope.getQuestion = function () {
@@ -15,6 +18,8 @@ app.controller('appCtrl', function($scope, $http)
 		angular.element(document.querySelector("#postAnswer")).addClass("hide");
 		angular.element(document.querySelector("#back")).removeClass("show");
 		angular.element(document.querySelector("#back")).addClass("hide");
+		angular.element(document.querySelector("#answerCol")).removeClass("hide");
+		angular.element(document.querySelector("#answerCol")).addClass("show");
 		console.log($scope.searchQuestion);
 		$http.get("/question/byTitle/" + $scope.searchQuestion).success(function(response) {
 			$scope.questionList = response;
@@ -31,6 +36,8 @@ app.controller('appCtrl', function($scope, $http)
 		angular.element(document.querySelector("#postAnswer")).addClass("show");
 		angular.element(document.querySelector("#back")).removeClass("hide");
 		angular.element(document.querySelector("#back")).addClass("show");
+		angular.element(document.querySelector("#answerCol")).removeClass("show");
+		angular.element(document.querySelector("#answerCol")).addClass("hide");
 		$http.get('/question/byId/' + id).success(function(response) {
 			$scope.title = response.title;
 			$scope.tags = response.tags;
@@ -48,21 +55,14 @@ app.controller('appCtrl', function($scope, $http)
 
 	};
 	$scope.set_color = function (isAnswered) {
-	  if (isAnswered.toLowerCase() =="no") {
-		return { color: "red" }
-	  }
+		if (isAnswered.toLowerCase() =="no") {
+			return { color: "red" }
+		}else{
+			return { color: "green" }
+		}
 	};
 	
-	$scope.callGetQuestion = function(keyEvent) {
-			$scope.getQuestion();
-	  //if (keyEvent.which === 13) {
-		//$scope.getQuestion();
-		/* if (keyEvent.keyCode === 8) {
-			alert($scope.searchQuestion);
-			$scope.getQuestion();
-		} */
-	 // }
-	};
+	
 
 	$scope.upVote = function (id, answer) {				
 		$http.put('/upVote/' + id, answer).success(function(response) {
@@ -113,6 +113,5 @@ function home() {
 	window.location = '/'; 
 };
 function back() {
-	document.referrer;
-	window.history.go(-2);
+	window.location = '/question.html'; 
 };

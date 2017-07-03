@@ -4,22 +4,17 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<style>
 		.questionList{
-			border: 1px gray solid;
-			width: 96%;
-			border-left: 0px;
-			border-right: 0px;
-			height: 57px;
 			padding: 10px;
 			color: blue;
 			font-size: 23px;
 			cursor:pointer;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			width:83%;
+			float: left;
+			border-top :1px solid gray;
 		}
-		.show{
-			display:block;
-		}
-		.hide{
-			display:none;
-		}
+		
 		.questionHead{
 			font-size: 26px;
 			border-bottom: 1px solid;
@@ -43,7 +38,7 @@
 			clear: both;
 		}
 		.tagCss{
-		    width: 100px;
+		    width: 125px;
 			height: 20px;
 			background-color: #E1ECF4;
 			text-align: center;
@@ -72,7 +67,7 @@
 				
 				<div id="custom-search-input" style=" margin: 50px;margin-left: 0px;">
 					<div class="input-group col-md-12">
-						<input type="text" id="searchId" ng-model="searchQuestion" class="search-query form-control" placeholder="Search" ng-keypress="callGetQuestion($event)" ng-keydown="callGetQuestion($event)"/>
+						<input type="text" id="searchId" ng-model="searchQuestion" class="search-query form-control" placeholder="Search"/>
 						<span class="input-group-btn">
 							<button class="btn btn-danger" type="button">
 								<span class=" glyphicon glyphicon-search" ng-click="getQuestion()"></span>
@@ -80,9 +75,14 @@
 						</span>
 					</div>
 				</div>
-				<div id="qList" class="show">
-					<div ng-repeat="question in questionList"  style="">
-						<div class="questionList" ng-click="getAnswer(question._id)" ng-style="set_color(question.answered)">{{question.title}}</div>
+				<div id="answerCol" style="margin: 10px;font-size: 15px;color: #a94442;font-weight: bold;" class="hide">
+					<div style="width: 106px;float:left;">Total:{{questionTotal}}</div>
+					<div style="margin-left: 80%;">IsAnswered</div>
+				</div>
+				<div id="qList" class="show col-xs-12  col-sm-12">
+					<div ng-repeat="question in questionList | filter:searchQuestion"  >
+						<div class="questionList col-sm-10" ng-click="getAnswer(question._id)" >{{question.title}}</div>
+						<div class="col-sm-2" style="width: 50px; padding: 10px;border-top :1px solid gray;" ng-style="set_color(question.answered)">{{question.answered}}</div>
 					</div>
 				</div>
 				<div id="questionTemplate" class="hide" style="">
