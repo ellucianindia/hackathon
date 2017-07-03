@@ -99,8 +99,29 @@ app.get('/users/byId/:id', function(req, res)
 app.get('/users/byExpertise/:expertise', function(req, res)
 {
 	console.log("GET by expertize " + req.params.expertise);
-	var query = {"expertise.name" : { $regex : req.params.expertise, $options : "$i"}};
-	var cursor = db.collection(USER_LIST).find(query).toArray(function(err, results) 
+	db.collection(USER_LIST).aggregate([
+    { "$match": { "expertise.name": req.params.expertise }},
+    { "$project": {
+    	"firstName" : "$firstName",
+    	"lastName" : "$lastName",
+    	"team" : "$team",
+        "expertise": { 
+            "$setDifference": [
+                { "$map": {
+                    "input": "$expertise",
+                    "as": "p",
+                    "in": { "$cond": [
+                        { "$regex": [ "$$p.name", req.params.expertise ] },
+                        "$$p",
+                        false
+                    ]}
+                }},
+                [false]   
+            ]
+        }
+    }},
+    { "$sort": { "expertise.credits": -1 } }
+]).toArray(function(err, results) 
 	{
 		console.log("res : " + results)
 		res.json(results)
