@@ -105,6 +105,7 @@ app.get('/users/byExpertise/:expertise', function(req, res)
     	"firstName" : "$firstName",
     	"lastName" : "$lastName",
     	"team" : "$team",
+    	"image" : "$image",
         "expertise": { 
             "$setDifference": [
                 { "$map": {
@@ -217,6 +218,7 @@ app.put('/downVote/:id', function(req, res) {
     );
     res.json("");
 });
+
 app.put('/postAnswer/:id', function(req, res) {
 	var id = req.params.id;
 	console.log(id+"----"+req.body.answerid);
