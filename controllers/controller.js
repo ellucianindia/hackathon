@@ -23,6 +23,7 @@ app.controller('appCtrl', function($scope, $http,ModalService)
 	$scope.findExpert = function () {	
 		$http.get('/users/byExpertise/' + $scope.searchKey).success(function(response) {
 			$scope.searchList = response;
+			console.log(response);
 		});
 	}
 
