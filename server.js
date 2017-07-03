@@ -157,11 +157,11 @@ app.get('/question/byTitle/:question', function(req, res) {
 	var question = req.params.question;
 	if (question != "undefined") {
 		var query = {"title" : new RegExp(question, 'i')};
-		db.collection('questionList').find(query).toArray(function (err, docs) {
+		db.collection(QUESTION_LIST).find(query).toArray(function (err, docs) {
 			res.json(docs);
 		});
 	} else {
-		db.collection('questionList').find().sort({"publishedOn": -1}).limit(10).toArray(function (err, docs) {
+		db.collection(QUESTION_LIST).find().toArray(function (err, docs) {
 			res.json(docs);
 		});
 	}
@@ -170,14 +170,14 @@ app.get('/question/byTitle/:question', function(req, res) {
 app.get('/question/byId/:id', function(req, res) {
 	var id = req.params.id;
 	var query = {_id: ObjectId(id)};
-	db.collection('questionList').findOne(query,function(error, doc) {
+	db.collection(QUESTION_LIST).findOne(query,function(error, doc) {
 		res.json(doc);
 	});
 });
 
 app.put('/upVote/:id', function(req, res) {
 	var id = req.params.id;
-	db.collection('questionList').update(
+	db.collection(QUESTION_LIST).update(
     	{ _id: ObjectId(id), "answers.answerid": req.body.answerid},
     	{ $inc: { "answers.$.credits": 1 } },
     	false,
@@ -188,7 +188,7 @@ app.put('/upVote/:id', function(req, res) {
 
 app.put('/downVote/:id', function(req, res) {
 	var id = req.params.id;
-	db.collection('questionList').update(
+	db.collection(QUESTION_LIST).update(
     	{ _id: ObjectId(id), "answers.answerid": req.body.answerid},
     	{ $inc: { "answers.$.credits": -1 } },
     	false,
