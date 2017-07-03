@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en-US" class="questionBg">
 	<head>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/index.css">
 		<style>
 		.questionList{
 			padding: 10px;
@@ -40,13 +41,15 @@
 		.tagCss{
 		    width: 125px;
 			height: 20px;
-			background-color: #E1ECF4;
+			background-color: #fcf8e3;
 			text-align: center;
 			float: left;
 			margin: 10px;
 			cursor:pointer;
 		}
 		</style>
+		
+		
 		</head>
 
 		<!-- Latest compiled and minified CSS -->
@@ -54,15 +57,25 @@
 
 		<!-- Latest compiled JavaScript -->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-		<body style=" background-color: lightgray;">
-			<ul class="nav navbar-nav" style="    margin: 12px;">
-				<li class="active"><a href="index.html" style="color:antiquewhite;background-color:#337ab7">Home</a></li>
-				<li><a href="question.html" style="color:antiquewhite;background-color:#337ab7;margin-left: 35px;">Discussion Forum?</a></li>
+		<body class="questionBg">
+
+			
+	<script src="controllers/question.js"></script>
+	<nav class="navbar navbar-default" style="background-color: transparent; border-color: transparent;color:white">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#"><img
+					src="https://researchresults.files.wordpress.com/2014/07/icon_expert_coul-279x200.png"
+					height="100" width="100"></a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li ><a href="index.html" style="color:#31708f;">Home</a></li>
+				<li class="active"><a href="question.html" style="color:antiquewhite;background-color:#337ab7">Discussion Forum?</a></li>
 				<!-- <li><a href="#">Page 2</a></li>
       <li><a href="#">Page 3</a></li> -->
 			</ul>
-			
-			<script src="controllers/question.js"></script>
+		</div>
+	</nav>
 			<div ng-app="myApp" class ="container" ng-controller="appCtrl">
 				
 				<div id="custom-search-input" style=" margin: 50px;margin-left: 0px;">

@@ -21,10 +21,15 @@ app.controller('appCtrl', function($scope, $http,ModalService)
 	}
 	
 	$scope.findExpert = function () {	
-		$http.get('/users/byExpertise/' + $scope.searchKey).success(function(response) {
-			$scope.searchList = response;
-			console.log(response);
-		});
+		
+		if($scope.searchKey != undefined){
+			$http.get('/users/byExpertise/' + $scope.searchKey).success(function(response) {
+				$scope.searchList = response;
+				console.log(response);
+			});
+		}else{
+			alert("Enter the Search String");
+		}
 	}
 
 	$scope.findUser = function () {	
@@ -147,8 +152,10 @@ app.controller('appCtrl', function($scope, $http,ModalService)
 			angular.element(document.querySelector("#userName")).text(response.firstName + " " + response.lastName); 
 			angular.element(document.querySelector("#skills")).text(expertise); 
 			angular.element(document.querySelector("#team")).text(response.team); 
-			angular.element(document.querySelector("#email")).text(response.email); 
-			angular.element(document.querySelector("#imageUrl")).src = "http://api.randomuser.me/portraits/men/49.jpg"; 
+			//angular.element(document.querySelector("#email")).text(response.email); 
+			$('#email').prepend('<a href="mailto:'+response.email+'">'+response.email+'</a>');
+			//angular.element(document.querySelector("#imageUrl")).src = ""; 
+			$('#theImgDiv').prepend('<img id="imageUrl" alt="User Pic" src="../images/'+response.image+'" class="img-circle img-responsive" />')
 			
 		});
         ModalService.showModal({
@@ -169,6 +176,8 @@ app.controller('appCtrl', function($scope, $http,ModalService)
     //posting questions api
 	$scope.postQuestion = function () {	
 		
+		console.log($scope.question.title.length);
+		if($scope.question.title.length != undefined || $scope.question.title.length > 0){
 		var userNameArray = ['svr2225','niket22', 'ravi43', 'jittojoset', 'shrik123'];
 		var randomNum = Math.floor(Math.random() * userNameArray.length);
 		console.log(userNameArray[randomNum]);
@@ -183,7 +192,10 @@ app.controller('appCtrl', function($scope, $http,ModalService)
 				 openQuestionForum();
 			 }
 		});
+	}else{
 		
+		alert("All Fields are mandatory")
+	}
 	};
 	
 	//On pressing Enter Key
