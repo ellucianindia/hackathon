@@ -55,9 +55,9 @@
 		<!-- Latest compiled JavaScript -->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 		<body style=" background-color: lightgray;">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="index.html" style="color:antiquewhite;background-color:darkgrey">Home</a></li>
-				<li><a href="question.html" style="color:antiquewhite;">Discussion Forum?</a></li>
+			<ul class="nav navbar-nav" style="    margin: 12px;">
+				<li class="active"><a href="index.html" style="color:antiquewhite;background-color:#337ab7">Home</a></li>
+				<li><a href="question.html" style="color:antiquewhite;background-color:#337ab7;margin-left: 35px;">Discussion Forum?</a></li>
 				<!-- <li><a href="#">Page 2</a></li>
       <li><a href="#">Page 3</a></li> -->
 			</ul>
@@ -81,14 +81,14 @@
 				</div>
 				<div id="qList" class="show col-xs-12  col-sm-12">
 					<div ng-repeat="question in questionList | filter:searchQuestion"  >
-						<div class="questionList col-sm-10" ng-click="getAnswer(question._id)" >{{question.title}}</div>
+						<div class="questionList col-sm-10" ng-click="getAnswer(question._id)"  ng-attr-title="{{question.publishedOn}} &nbsp;&nbsp;&nbsp;&nbsp;{{question.userName}}">{{question.title}}</div>
 						<div class="col-sm-2" style="width: 50px; padding: 10px;border-top :1px solid gray;" ng-style="set_color(question.answered)">{{question.answered}}</div>
 					</div>
 				</div>
 				<div id="questionTemplate" class="hide" style="">
 				<div class=" ">
 					<div class="questionHead">{{title}}</div>
-					<div class=""><span>posted by-<a href="#">{{userName}}</a></span>&nbsp;&nbsp;<span id="publishDate">on:{{publishedOn}}</span></div>
+					<div class=""><span>posted by-<a href="#">{{userName}}</a></span>&nbsp;&nbsp;<span ng-bind="publishedOn | date:'MM/dd/yyyy hh:mm:ss'"id="publishDate">on:</span></div>
 					<div ng-repeat ="tag in tags">
 						<div class="tagCss">{{tag}}</div>
 					</div>
@@ -107,11 +107,11 @@
 									<i class="glyphicon glyphicon-chevron-down" style="color: red;"></i>
 								</div>
 							</div>
-							<div class="answerSection">{{answer.content}}</div><div style="margin-left: 54%;"><span>-<a href="#">{{answer.userName}}</a></span>&nbsp;&nbsp;<span>{{answer.publishedOn}}</span></div>
+							<div class="answerSection">{{answer.content}}</div><div style="margin-left: 54%;"><span>-<a href="#">{{answer.userName}}</a></span>&nbsp;&nbsp;<span ng-bind="answer.publishedOn | date:'MM/dd/yyyy hh:mm:ss'"></span></div>
 							<div ng-repeat="comment in answer.comments">
 								<div style="width: 89%;margin-left: 73px;font-size: 13px;border-top: 1px solid;padding: 10px;">
 									<div style="float: left;">{{comment.content}}</div>
-									<span>-<a href="#">{{comment.userName}}</a></span>&nbsp;&nbsp;<span>{{comment.publishedOn}}</span>
+									<span>-<a href="#">{{comment.userName}}</a></span>&nbsp;&nbsp;<span ng-bind="comment.publishedOn | date:'MM/dd/yyyy hh:mm:ss'"></span>
 								</div>
 							</div>
 						</div>
