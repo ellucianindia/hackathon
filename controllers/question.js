@@ -62,22 +62,29 @@ app.controller('appCtrl', function($scope, $http)
 		}
 	};
 	
-	
-
 	$scope.upVote = function (id, answer) {				
 		$http.put('/upVote/' + id, answer).success(function(response) {
 			++answer.credits;
+			answer.tags = $scope.tags;
+			$http.put('/upVoteTag/' + id, answer).success(function(response) {
+					console.log("Upvoted Tag")
+				});
 			console.log("Upvoted")
 		});
 	}
 
-	$scope.downVote = function (id, answer) {		
+	$scope.downVote = function (id, answer) {
 		$http.put('/downVote/' + id, answer).success(function(response) {
 			--answer.credits;
+			answer.tags = $scope.tags;
+			$http.put('/downVoteTag/' + id, answer).success(function(response) {
+					console.log("Downvoted Tag")
+				});
 			console.log("Downvoted")
 		});
 	};
-	$scope.postAnswer = function (id){	
+
+	$scope.postAnswer = function (id) {
 		var comments = [];
 		var answer={
 			accepted:"false",

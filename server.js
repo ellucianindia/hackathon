@@ -212,7 +212,7 @@ app.put('/downVote/:id', function(req, res) {
 	var id = req.params.id;
 	db.collection(QUESTION_LIST).update(
     	{ _id: ObjectId(id), "answers.answerid": req.body.answerid},
-    	{ $inc: { "answers.$.credits": -1 } },
+    	{ $inc: { "answers.$.credits": -1 } }, 
     	false,
     	true
     );
@@ -227,5 +227,21 @@ app.put('/postAnswer/:id', function(req, res) {
 		{$push: { "answers": req.body } ,
 		$set: { "answered": "Yes" } }
 		)
-  res.json("");
+  		res.json("");
+});
+
+app.put('/downVoteTag/:id', function(req, res) {
+	db.collection(USER_LIST).update(
+		{userName: req.body.userName, "expertise.name": {$in: req.body.tags}},
+		{ $inc: { "expertise.$.credits": -1 }}, {multi : true}
+	);
+	res.json("");
+});
+
+app.put('/upVoteTag/:id', function(req, res) {
+	db.collection(USER_LIST).update(
+		{userName: req.body.userName, "expertise.name": {$in: req.body.tags}},
+		{ $inc: { "expertise.$.credits": 1 }}, {multi : true}
+	);
+	res.json("");
 });
