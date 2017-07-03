@@ -175,8 +175,6 @@ app.controller('appCtrl', function($scope, $http,ModalService)
     
     //posting questions api
 	$scope.postQuestion = function () {	
-		
-		console.log($scope.question.title.length);
 		if($scope.question.title.length != undefined || $scope.question.title.length > 0){
 		var userNameArray = ['svr2225','niket22', 'ravi43', 'jittojoset', 'shrik123'];
 		var randomNum = Math.floor(Math.random() * userNameArray.length);
