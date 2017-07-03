@@ -161,7 +161,7 @@ app.get('/question/byTitle/:question', function(req, res) {
 			res.json(docs);
 		});
 	} else {
-		db.collection('questionList').find().toArray(function (err, docs) {
+		db.collection('questionList').find().sort({"publishedOn": -1}).limit(10).toArray(function (err, docs) {
 			res.json(docs);
 		});
 	}
