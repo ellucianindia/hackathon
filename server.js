@@ -149,7 +149,7 @@ app.post('/postQuestion', function(req, res)
 			console.log("POST");
 			db.collection(QUESTION_LIST).insert(req.body, function (error, results) 
 			{
-				console.log(res.status);
+				res.json(res.statusCode);
 			});
 		});
 

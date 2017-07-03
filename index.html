@@ -30,9 +30,8 @@
 					height="100" width="100"></a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Home</a></li>
-				<li><a href="#">Questions Posted</a></li>
-				<li><a href="question.html">Want to search a Question?</a></li>
+				<li class="active"><a href="#" style="color:antiquewhite;background-color:darkgrey">Home</a></li>
+				<li><a href="question.html" style="color:antiquewhite;">Discussion Forum?</a></li>
 				<!-- <li><a href="#">Page 2</a></li>
       <li><a href="#">Page 3</a></li> -->
 			</ul>
@@ -40,18 +39,17 @@
 	</nav>
 	<div class="container" ng-app="myApp" ng-controller="appCtrl">
 	<div class="row">
-			<h2 style="color:white">Find an Expert</h2>
 			<div id="custom-search-input">
 				<div class="input-group col-md-12" ng-model="query">
 					<input type="text" class="  search-query form-control"
-						placeholder="Search" ng-model="searchKey" ng-keypress="callFindExpert($event)" /> <span class="input-group-btn">
+						placeholder="Search an expert" ng-model="searchKey" ng-keypress="callFindExpert($event)" /> <span class="input-group-btn">
 						<button class="btn btn-danger" type="button" ng-click='findExpert()'>
 							<span class=" glyphicon glyphicon-search"></span>
 						</button>
 					</span>
 				</div>
 			</div>
-        <div class="col-xs-12  col-sm-6" style="margin-top:5px;background-color: transparent; border-color: transparent">
+        <div class="col-xs-12  col-sm-6" style="margin-top:5px;background-color: transparent; border-color: transparent;height:400px;overflow:auto">
                 
                 <ul class="list-group" ng-repeat="user in searchList | filter:test" style="margin-bottom:0px">
                     <li class="list-group-item">
@@ -63,8 +61,8 @@
                             <span class="name">{{user.firstName}} {{user.lastName}}</span><br/>
                             <span class="fa fa-star text-muted c-info" data-toggle="tooltip" title="Reputation" style="color:#E0BA20">
                              <span class="">:{{user.credits}}</span></span>
-                            <span class="fa fa-arrow-up text-muted c-info" data-toggle="tooltip" title="Rank" style="color:#87B416">
-                            <span class="">:1</span></span>
+                           <!--  <span class="fa fa-arrow-up text-muted c-info" data-toggle="tooltip" title="Rank" style="color:#87B416">
+                            <span class="">:1</span></span> -->
                             <span class="fa fa-users fa-1 text-muted c-info" data-toggle="tooltip" title="Team" style="color:#B6BB0F  ">
                             <span class="">:{{user.team}}</span></span>
                         </div>
@@ -74,12 +72,13 @@
                 </ul>
         </div>
         </div>
-        <hr>
-			<div class="col-md-10">
+        <hr style="margin:0px">
+			<div class="col-md-12">
 			    <div class="form-area">  
 			        <form role="form">
 			        <br style="clear:both">
-			                   <h3 style="margin-bottom: 25px;color:white">Post Your Question</h3>
+			                   <h3 style="margin-bottom:10px;color:antiquewhite">Post Your Question</h3>
+			                   <div class="col-md-8">
 			    				<div class="form-group">
 									<input type="text" class="form-control" id="title" max-length="200" ng-model="question.title" placeholder="Title" required>
 								</div>
@@ -87,17 +86,27 @@
 			                    <div class="form-group">
 			                    <textarea class="form-control" rows="5" id="question" ng-model="question.content" placeholder="Description for your Question"></textarea>                
 			                    </div>
-			            		<div class="form-group">
-									<p style="color:white"> Select Tags</p>
-									<select class="dropdown " ng-model="question.tags" id="tags" multiple required>
+			                    </div>
+			                    <div class="col-md-4">
+			            		<div class="form-group" id="picker">
+									<p style="color:antiquewhite">Choose atleast one tag<span style="color:red;"><b>**</b></span></p>
+									<select class="" ng-model="question.tags" id="tags" multiple required>
 										<option ng-repeat="tags in tagsList" value="{{tags}}">{{tags}}</option>
 									</select>
 								</div>
-			        <button type="button" id="submit" name="postQuestion" class="btn btn-primary pull-right" ng-click='postQuestion()'>Post Question</button>
+								</div>
+					<div class="col-md-12">			
+			        <button type="button" id="submitBtn" name="postQuestion" class="btn btn-primary pull-right" ng-click='postQuestion()' disabled>Post Question</button>
+			        </div>
 			        </form>
 			    </div>
 			</div>
 
+		<script type="text/javascript">
+		$('#picker').on('change', function() {
+		    $('#submitBtn' + $(this).val()).prop('disabled', false);
+		});
+		</script>
 
 		<script type="text/ng-template" id="templateId">
          <div class="modal fade panel panel-info" style="background-color:transparent;display:block;border:none">

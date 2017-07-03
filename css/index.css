@@ -4,7 +4,7 @@
 .bg{
 	/* Full height */
     height: 100%; 
-	background-image: url("../images/scuffedstatic_dark1400x900.jpg");
+	background-image: url("../images/bg.jpg");
     /* Center and scale the image nicely */
     background-position: center;
     /* background-repeat: no-repeat; */
@@ -178,5 +178,6 @@ ul.c-controls li a:hover {
 {
 	padding: 10px 40px 60px;
 	margin: 10px 0px 60px;
+	margin-left:160px;
 	}
 

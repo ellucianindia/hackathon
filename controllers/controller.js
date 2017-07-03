@@ -175,7 +175,12 @@ app.controller('appCtrl', function($scope, $http,ModalService)
 		$scope.question.publishedOn = new Date();
 		$scope.question.answered = "No";
 		$http.post('/postQuestion' ,$scope.question).success(function(response) {
-			console.log(response)
+			console.log(response.toString());
+			
+			 if (response == 200){
+				 console.log("Hitting here");
+				 openQuestionForum();
+			 }
 		});
 		
 	};
@@ -208,4 +213,8 @@ function getSkills(skills){
 		result.push(skills[i].name);
 	}
 	return result
+}
+
+function  openQuestionForum(){
+	window.location = "/question.html";
 }

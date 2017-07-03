@@ -93,6 +93,8 @@ you will see
  -----------------------
  npm install body-parser from root folder (C:\MeanstackProject)
  
+ npm install angularjs-dropdown-multiselect
+ 
  
  
  ----------------------------------------------------------------------------------------------------
